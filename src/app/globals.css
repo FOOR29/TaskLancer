@@ -1,9 +1,32 @@
 @import "tailwindcss";
 
-:root {
-    color-scheme: light;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* 🎨 COLORES BASE (se sobreescriben según el tema) */
+    --bg-1: #FFFFFF;
+    --bg-2: #F6F6F8;
+
+    --btn-1: #4A90E2;
+    --btn-2: #F4F7F9;
+
+    --text-1: #111827;
+    --text-2: #6B7280;
+
+    /* Prioridades (no cambian) */
+    --priority-low: #4ADE80;
+    --priority-medium: #FACC15;
+    --priority-high: #EF4444;
 }
 
+/* 🌙 DARK MODE */
 .dark {
-    color-scheme: dark;
+    --bg-1: #101622;
+    --bg-2: #1A2336;
+
+    --btn-1: #135BEC;
+    --btn-2: #232F48;
+
+    --text-1: #FFFFFF;
+    --text-2: #CBD5E1;
 }
