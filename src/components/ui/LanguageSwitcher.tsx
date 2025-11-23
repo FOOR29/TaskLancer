@@ -24,7 +24,7 @@ export const LanguageSwitcher = ({ className }: { className?: string }) => {
         <div className={className}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--bg-2) text-(--text-1) hover:bg-(--bg-3) transition-colors duration-200"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-(--text-1) hover:scale-103 transition-all duration-200 cursor-pointer"
                 disabled={isPending}
             >
                 <Languages className="w-5 h-5" />
@@ -34,17 +34,17 @@ export const LanguageSwitcher = ({ className }: { className?: string }) => {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full mt-2 right-0 bg-(--bg-2) rounded-lg shadow-lg overflow-hidden z-50 min-w-[150px]">
+                <div className="absolute top-full mt-2 right-0 rounded-lg shadow-lg overflow-hidden z-50 min-w-[150px]">
                     <button
                         onClick={() => handleLanguageChange('es')}
-                        className={`w-full px-4 py-3 text-left hover:bg-(--bg-3) transition-colors duration-200 ${locale === 'es' ? 'bg-(--btn-1) text-white' : 'text-(--text-1)'
+                        className={`w-full px-4 py-3 text-left hover:bg-(--btn-1) transition-colors duration-200 cursor-pointer hover:text-white ${locale === 'es' ? 'bg-(--btn-1) text-white' : 'text-(--text-1)'
                             }`}
                     >
                         🇪🇸 {t('spanish')}
                     </button>
                     <button
                         onClick={() => handleLanguageChange('en')}
-                        className={`w-full px-4 py-3 text-left hover:bg-(--bg-3) transition-colors duration-200 ${locale === 'en' ? 'bg-(--btn-1) text-white' : 'text-(--text-1)'
+                        className={`w-full px-4 py-3 text-left hover:bg-(--btn-1) transition-colors duration-200 cursor-pointer hover:text-white ${locale === 'en' ? 'bg-(--btn-1) text-white' : 'text-(--text-1)'
                             }`}
                     >
                         🇬🇧 {t('english')}

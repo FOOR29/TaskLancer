@@ -6,7 +6,7 @@ export const ButtonMode = ({ className }: { className?: string }) => {
     const { toggleTheme, theme } = useTheme()
     return (
         <button
-            className={`bg-(--btn-1) text-white rounded-md ${className}`}
+            className={`bg-(--btn-1) hover:bg-(--btn-1)/80 hover:scale-105 text-white transition-all duration-200 cursor-pointer rounded-md ${className}`}
             onClick={toggleTheme}
             aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}>
             {theme == 'light' ? <Moon /> : <Sun />}
