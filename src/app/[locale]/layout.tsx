@@ -42,9 +42,7 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} data-scroll-behavior="smooth">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            >
+            <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col antialiased`}>
                 <NextIntlClientProvider messages={messages}>
                     <ThemeProvider initialTheme={initialTheme}>
                         {children}
