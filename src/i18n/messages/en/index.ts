@@ -4,6 +4,8 @@ import form from './components/form.json';
 import dashboard from './pages/dashboard.json';
 import metadata from './metadata.json';
 import sidebar from './components/sidebar.json';
+import navbar from './components/navbar.json';
+
 
 export default {
     common,
@@ -11,5 +13,6 @@ export default {
     form,
     dashboard,
     metadata,
-    sidebar
+    sidebar,
+    navbar
 };
