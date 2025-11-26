@@ -3,14 +3,15 @@
 import { LanguageSwitcher } from "../ui/LanguageSwitcher"
 import { ButtonMode } from "../ui/ButtonMode"
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/routing";
 import Image from "next/image";
-import { useTheme } from "@/utils/ThemeProvider";
+
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useThemeStore } from "@/stores/themeStore";
 
 const Navbar = () => {
     const t = useTranslations('navbar');
-    const { theme } = useTheme();
+    const { theme } = useThemeStore();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => setMounted(true), []);
@@ -21,7 +22,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between h-20">
 
                     {/* Logo */}
-                    <div className="flex-shrink-0 flex items-center gap-2">
+                    <div className="flex-0 flex items-center gap-2">
                         <Link href="/" className="h-12 flex items-center pt-2">
                             {mounted && (
                                 <Image
