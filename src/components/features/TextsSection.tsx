@@ -6,15 +6,13 @@ import { HeroImages } from "./HeroImages";
 
 const TextsSection = () => {
     return (
-        // CORRECCIÓN: Eliminé px extra en el section si el padre ya lo tiene, 
-        // o aseguramos que coincida. Aquí mantenemos el estándar.
         <div className="max-w-8/10 mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-12 lg:py-20">
 
-                <div className="flex flex-col gap-8"> {/* Aumenté gap para más aire */}
+                <div className="flex flex-col gap-8">
                     {/* Títulos */}
                     <div className="space-y-4">
-                        <h2 className="font-bold text-4xl sm:text-5xl lg:text-5xl text-(--text-1) leading-[1.1]">
+                        <h2 className="font-bold text-xl sm:text-5xl lg:text-6xl text-(--text-1) leading-[1.1]">
                             All your freelance work <br />
                             <span className="text-(--btn-1)">in one place.</span>
                         </h2>
