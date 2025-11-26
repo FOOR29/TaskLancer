@@ -6,20 +6,34 @@ interface SearchBarProps {
     placeholder?: string;
     onSearch?: (value: string) => void;
     className?: string;
+    value?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const SearchBar = ({
     placeholder = "Search projects...",
     onSearch,
-    className = ""
+    className = "",
+    value: controlledValue,
+    onChange: controlledOnChange
 }: SearchBarProps) => {
-    const [searchValue, setSearchValue] = useState('');
+    const [internalValue, setInternalValue] = useState('');
+
+    // Use controlled value if provided, otherwise use internal state
+    const value = controlledValue !== undefined ? controlledValue : internalValue;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchValue(value);
+        const newValue = e.target.value;
+
+        // If controlled, call the onChange prop
+        if (controlledOnChange) {
+            controlledOnChange(e);
+        } else {
+            setInternalValue(newValue);
+        }
+
         if (onSearch) {
-            onSearch(value);
+            onSearch(newValue);
         }
     };
 
@@ -28,7 +42,7 @@ export const SearchBar = ({
             <Search className="w-5 h-5 text-(--text-2)" />
             <input
                 type="text"
-                value={searchValue}
+                value={value}
                 onChange={handleChange}
                 placeholder={placeholder}
                 className="flex-1 bg-transparent outline-none text-(--text-2) placeholder:text-gray-400"
