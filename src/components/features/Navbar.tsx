@@ -23,7 +23,7 @@ const Navbar = () => {
 
                     {/* Logo */}
                     <div className="flex-0 flex items-center gap-2">
-                        <Link href="/" className="h-12 flex items-center pt-2">
+                        <Link href="/logo/logo_dm.png" className="h-12 flex items-center pt-2">
                             {mounted && (
                                 <Image
                                     src={theme === 'dark' ? '/logo/logo_dm.png' : '/logo/logo_lm.png'}

@@ -30,7 +30,7 @@ export const DashboardView = () => {
     ];
 
     return (
-        <div className="flex min-h-screen bg-(--bg-1) text-white font-sans">
+        <div className="flex  min-h-screen bg-(--bg-1) text-white font-sans">
 
 
             {/* Main Content - Offset by sidebar width (w-60 = 15rem = 240px) */}

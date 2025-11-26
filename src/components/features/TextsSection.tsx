@@ -12,7 +12,7 @@ const TextsSection = () => {
                 <div className="flex flex-col gap-8">
                     {/* Títulos */}
                     <div className="space-y-4">
-                        <h2 className="font-bold text-xl sm:text-5xl lg:text-6xl text-(--text-1) leading-[1.1]">
+                        <h2 className="font-extrabold text-xl sm:text-5xl lg:text-6xl text-(--text-1) leading-[1.1]">
                             All your freelance work <br />
                             <span className="text-(--btn-1)">in one place.</span>
                         </h2>
