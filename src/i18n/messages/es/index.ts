@@ -5,6 +5,7 @@ import dashboard from './pages/dashboard.json';
 import metadata from './metadata.json';
 import sidebar from './components/sidebar.json';
 import navbar from './components/navbar.json';
+import validations from './validations.json';
 
 export default {
     common,
@@ -13,5 +14,6 @@ export default {
     dashboard,
     metadata,
     sidebar,
-    navbar
+    navbar,
+    validations
 };
