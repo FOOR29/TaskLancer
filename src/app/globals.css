@@ -21,6 +21,12 @@
     --priority-medium-1: #F5A623;
     --priority-high-1: #D0021B;
 
+    /* ❌ ERRORES */
+    --error-1: #DC2626;
+    /* Texto de error / borde de input */
+    --error-bg: #FEF2F2;
+    /* Fondo de mensaje de error */
+
 }
 
 /* 🌙 DARK MODE */
@@ -38,6 +44,11 @@
 
     --border-1: #324467;
 
+    /* ❌ ERRORES */
+    --error-1: #F87171;
+    /* Más suave para dark mode */
+    --error-bg: #2D1A1F;
+    /* Fondo oscuro con tinte rojo */
 }
 
 /* 📜 CUSTOM SCROLLBAR */
