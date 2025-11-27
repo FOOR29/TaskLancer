@@ -9,13 +9,6 @@ interface HeroCardProps {
 export const HeroCard = ({ src, alt, className = "" }: HeroCardProps) => {
   return (
     <div className={`absolute group ${className}`}>
-      {/* 
-         EFECTO DE GLOW / BORDE ANIMADO
-         - Es un div absoluto detrás de la imagen.
-         - Tiene un gradiente (cyan -> purple).
-         - opacity-0 por defecto, opacity-100 en hover (group-hover).
-         - blur-md para que parezca luz difusa.
-      */}
       <div className="absolute -inset-1 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500 group-hover:duration-200 will-change-[opacity,transform]" />
       
       {/* CONTENEDOR DE LA IMAGEN */}

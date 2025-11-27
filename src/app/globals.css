@@ -68,3 +68,8 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: var(--btn-1);
 }
+
+/* FONTS */
+body {
+    font-family: 'Supreme', sans-serif;
+}
