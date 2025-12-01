@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { Project, Task } from '@/types/features/project'
+import { projectService, taskService } from '@/services'
 
 interface ProjectState {
     projects: Project[]
@@ -47,14 +48,12 @@ export const useProjectStore = create<ProjectState>()(
 
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch(`/api/projects?userId=${userId}`)
-                    if (!response.ok) throw new Error('Failed to fetch projects')
-
-                    const projects = await response.json()
+                    const projects = await projectService.getProjects(userId)
                     set({ projects, isLoading: false })
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch projects'
                     console.error('Error fetching projects:', error)
-                    set({ error: 'Failed to fetch projects', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
@@ -67,18 +66,12 @@ export const useProjectStore = create<ProjectState>()(
 
                 set({ isLoading: true, error: null })
                 try {
-                    const url = projectId
-                        ? `/api/tasks?userId=${userId}&projectId=${projectId}`
-                        : `/api/tasks?userId=${userId}`
-
-                    const response = await fetch(url)
-                    if (!response.ok) throw new Error('Failed to fetch tasks')
-
-                    const tasks = await response.json()
+                    const tasks = await taskService.getTasks(userId, projectId)
                     set({ tasks, isLoading: false })
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tasks'
                     console.error('Error fetching tasks:', error)
-                    set({ error: 'Failed to fetch tasks', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
@@ -91,37 +84,22 @@ export const useProjectStore = create<ProjectState>()(
 
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch('/api/projects', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ...projectData, userId })
-                    })
-
-                    if (!response.ok) throw new Error('Failed to create project')
-
-                    const newProject = await response.json()
+                    const newProject = await projectService.createProject({ ...projectData, userId })
                     set((state) => ({
                         projects: [...state.projects, newProject],
                         isLoading: false
                     }))
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to create project'
                     console.error('Error creating project:', error)
-                    set({ error: 'Failed to create project', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
             updateProject: async (projectId, updates) => {
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch(`/api/projects/${projectId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(updates)
-                    })
-
-                    if (!response.ok) throw new Error('Failed to update project')
-
-                    const updatedProject = await response.json()
+                    const updatedProject = await projectService.updateProject(projectId, updates)
                     set((state) => ({
                         projects: state.projects.map((p) =>
                             p.id === projectId ? updatedProject : p
@@ -129,65 +107,47 @@ export const useProjectStore = create<ProjectState>()(
                         isLoading: false
                     }))
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to update project'
                     console.error('Error updating project:', error)
-                    set({ error: 'Failed to update project', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
             deleteProject: async (projectId) => {
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch(`/api/projects/${projectId}`, {
-                        method: 'DELETE'
-                    })
-
-                    if (!response.ok) throw new Error('Failed to delete project')
-
+                    await projectService.deleteProject(projectId)
                     set((state) => ({
                         projects: state.projects.filter((p) => p.id !== projectId),
                         selectedProjectId: state.selectedProjectId === projectId ? null : state.selectedProjectId,
                         isLoading: false
                     }))
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to delete project'
                     console.error('Error deleting project:', error)
-                    set({ error: 'Failed to delete project', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
             addTask: async (taskData) => {
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch('/api/tasks', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(taskData)
-                    })
-
-                    if (!response.ok) throw new Error('Failed to create task')
-
-                    const newTask = await response.json()
+                    const newTask = await taskService.createTask(taskData)
                     set((state) => ({
                         tasks: [...state.tasks, newTask],
                         isLoading: false
                     }))
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to create task'
                     console.error('Error creating task:', error)
-                    set({ error: 'Failed to create task', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
             updateTask: async (taskId, updates) => {
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch(`/api/tasks/${taskId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(updates)
-                    })
-
-                    if (!response.ok) throw new Error('Failed to update task')
-
-                    const updatedTask = await response.json()
+                    const updatedTask = await taskService.updateTask(taskId, updates)
                     set((state) => ({
                         tasks: state.tasks.map((t) =>
                             t.id === taskId ? updatedTask : t
@@ -195,27 +155,24 @@ export const useProjectStore = create<ProjectState>()(
                         isLoading: false
                     }))
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to update task'
                     console.error('Error updating task:', error)
-                    set({ error: 'Failed to update task', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
             deleteTask: async (taskId) => {
                 set({ isLoading: true, error: null })
                 try {
-                    const response = await fetch(`/api/tasks/${taskId}`, {
-                        method: 'DELETE'
-                    })
-
-                    if (!response.ok) throw new Error('Failed to delete task')
-
+                    await taskService.deleteTask(taskId)
                     set((state) => ({
                         tasks: state.tasks.filter((t) => t.id !== taskId),
                         isLoading: false
                     }))
                 } catch (error) {
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to delete task'
                     console.error('Error deleting task:', error)
-                    set({ error: 'Failed to delete task', isLoading: false })
+                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
