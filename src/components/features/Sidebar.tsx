@@ -7,10 +7,17 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useThemeStore } from "@/stores/themeStore";
 import { navItems } from "@/constants/sidebar_item";
+import { signOut } from "@main/auth";
 
 export const Sidebar = () => {
     const { theme } = useThemeStore()
     const pathname = usePathname()
+
+    const handleLogout = async () => {
+        await signOut({
+            redirectTo: "/auth/login",
+        })
+    }
 
     const t = useTranslations('sidebar')
 
@@ -72,7 +79,7 @@ export const Sidebar = () => {
                                 {t('profile')}
                             </h3>
                         </Link>
-                        <button onClick={() => alert('Cerraste sesion')} className="cursor-pointer py-0">
+                        <button onClick={handleLogout} className="cursor-pointer py-0">
                             <CgLogOut className="h-6 w-6 shrink-0" />
                         </button>
                     </div>

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prismaClient'
+import { db as prisma } from '@/lib/db'
 
 // GET /api/users/first - Get the first user (for testing purposes)
 export async function GET() {
