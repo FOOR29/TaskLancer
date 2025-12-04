@@ -3,7 +3,7 @@ import { LoginForm, RegisterForm } from "@components"
 
 export const AuthForm = ({ isLogin }: AuthFormProps) => {
     return (
-        <form
+        <div
             className="flex flex-col items-center gap-8 w-1/2"
             id="form"
         >
@@ -12,6 +12,6 @@ export const AuthForm = ({ isLogin }: AuthFormProps) => {
             ) : (
                 <RegisterForm />
             )}
-        </form>
+        </div>
     )
 }

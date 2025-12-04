@@ -7,16 +7,14 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useThemeStore } from "@/stores/themeStore";
 import { navItems } from "@/constants/sidebar_item";
-import { signOut } from "@main/auth";
+import { signOutAction } from "@/actions/auth-action";
 
 export const Sidebar = () => {
     const { theme } = useThemeStore()
     const pathname = usePathname()
 
     const handleLogout = async () => {
-        await signOut({
-            redirectTo: "/auth/login",
-        })
+        await signOutAction()
     }
 
     const t = useTranslations('sidebar')

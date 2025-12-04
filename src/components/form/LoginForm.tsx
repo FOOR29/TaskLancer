@@ -47,7 +47,7 @@ export const LoginForm = () => {
     };
 
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Input
                 id="email"
                 type="email"
@@ -71,9 +71,9 @@ export const LoginForm = () => {
                 </div>
             )}
 
-            <Button primary type="submit" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+            <Button primary type="submit" disabled={isSubmitting}>
                 {isSubmitting ? '...' : tAuth('signIn')}
             </Button>
-        </>
+        </form>
     )
 }

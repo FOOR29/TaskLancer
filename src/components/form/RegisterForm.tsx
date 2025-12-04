@@ -45,7 +45,7 @@ export const RegisterForm = () => {
     };
 
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Input
                 id="name"
                 type="text"
@@ -85,9 +85,9 @@ export const RegisterForm = () => {
                 </div>
             )}
 
-            <Button primary type="submit" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+            <Button primary type="submit" disabled={isSubmitting}>
                 {isSubmitting ? '...' : tAuth('register')}
             </Button>
-        </>
+        </form>
     )
 }
