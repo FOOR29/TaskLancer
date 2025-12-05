@@ -78,7 +78,7 @@ export const DropdownMenu = ({ onEdit, onDelete, onClick, onInvoice }: DropdownM
                         className="w-full px-4 py-2 text-left text-(--text-1) hover:bg-(--bg-2) transition-colors duration-150 flex items-center gap-3"
                     >
                         <Edit className="w-4 h-4" />
-                        <span>Factura</span>
+                        <span>Cotizacion</span>
                     </button>}
                     <button
                         onClick={(e) => {
