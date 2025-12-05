@@ -175,19 +175,39 @@ export const useProjectStore = create<ProjectState>()(
             },
 
             updateTask: async (taskId, updates) => {
-                set({ isLoading: true, error: null })
+                // Optimistic update: Update UI immediately
+                const previousTasks = get().tasks
+                const taskToUpdate = previousTasks.find((t) => t.id === taskId)
+
+                if (!taskToUpdate) {
+                    set({ error: 'Task not found' })
+                    return
+                }
+
+                // Immediately update the UI with optimistic data
+                set((state) => ({
+                    tasks: state.tasks.map((t) =>
+                        t.id === taskId ? { ...t, ...updates } : t
+                    )
+                }))
+
+                // Then make the API call in the background
                 try {
                     const updatedTask = await taskService.updateTask(taskId, updates)
+                    // Update with real data from server
                     set((state) => ({
                         tasks: state.tasks.map((t) =>
                             t.id === taskId ? updatedTask : t
                         ),
-                        isLoading: false
+                        error: null
                     }))
                 } catch (error) {
-                    const errorMessage = error instanceof Error ? error.message : 'Failed to update task'
+                    // Rollback on error
+                    set({
+                        tasks: previousTasks,
+                        error: error instanceof Error ? error.message : 'Failed to update task'
+                    })
                     console.error('Error updating task:', error)
-                    set({ error: errorMessage, isLoading: false })
                 }
             },
 
