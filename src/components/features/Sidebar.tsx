@@ -6,13 +6,16 @@ import { CgLogOut } from "react-icons/cg";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useThemeStore } from "@/stores/themeStore";
-import { Eclipse, Languages } from "lucide-react";
 import { navItems } from "@/constants/sidebar_item";
-import { ButtonMode, LanguageSwitcher } from "@components";
+import { signOutAction } from "@/actions/auth-action";
 
 export const Sidebar = () => {
     const { theme } = useThemeStore()
     const pathname = usePathname()
+
+    const handleLogout = async () => {
+        await signOutAction()
+    }
 
     const t = useTranslations('sidebar')
 
@@ -62,7 +65,7 @@ export const Sidebar = () => {
 
                     <div className={`flex justify-between px-3.5 py-3 items-center rounded-lg transition-all duration-200 ${pathname.includes('/profile')
                         ? 'bg-(--btn-1) text-(--text-1)'
-                        : 'text-(--text-2) bg-(--bg-2) hover:bg-(--btn-1) hover:text-(--text-1)'
+                        : 'text-(--text-1) bg-(--bg-2) hover:bg-(--btn-1) hover:text-(--text-1)'
                         }`}>
                         <Link
                             href="/profile"
@@ -74,7 +77,7 @@ export const Sidebar = () => {
                                 {t('profile')}
                             </h3>
                         </Link>
-                        <button onClick={() => alert('Cerraste sesion')} className="cursor-pointer py-0">
+                        <button onClick={handleLogout} className="cursor-pointer py-0">
                             <CgLogOut className="h-6 w-6 shrink-0" />
                         </button>
                     </div>

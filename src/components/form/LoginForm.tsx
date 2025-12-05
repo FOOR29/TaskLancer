@@ -5,11 +5,19 @@ import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema, LoginFormData } from "@/validations"
+import { useSearchParams, useRouter } from "next/navigation"
+import { useState, useTransition } from "react"
+import { loginAction } from "@/actions/auth-action"
 
 export const LoginForm = () => {
     const t = useTranslations('form');
     const tAuth = useTranslations('auth');
     const tValidations = useTranslations('validations');
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const verified = searchParams.get("verified");
 
     const {
         register,
@@ -21,16 +29,25 @@ export const LoginForm = () => {
 
     const onSubmit = async (data: LoginFormData) => {
         try {
-            console.log('Login data:', data);
-            // AQUI VA EL ENDPOINT
-            // Ejemplo: await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify(data) })
+            setError(undefined); // Reset previous error
+            // Perform login action
+            startTransition(async () => {
+                const response = await loginAction(data)
+                console.log(response);
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    // Handle successful login, e.g., redirect or update UI
+                    router.push('/dashboard'); // Redirect to dashboard after login
+                }
+            });
         } catch (error) {
             console.error('Login error:', error);
         }
     };
 
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Input
                 id="email"
                 type="email"
@@ -47,9 +64,16 @@ export const LoginForm = () => {
                 register={register('password')}
                 error={errors.password?.message ? tValidations(errors.password.message as any) : undefined}
             />
-            <Button primary type="submit" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+
+            {error && (
+                <div className="p-3 text-sm text-red-500 bg-red-100 border border-red-200 rounded-md">
+                    {error}
+                </div>
+            )}
+
+            <Button primary type="submit" disabled={isSubmitting}>
                 {isSubmitting ? '...' : tAuth('signIn')}
             </Button>
-        </>
+        </form>
     )
 }
