@@ -5,7 +5,10 @@ import { CardFinancialSnapshot } from '@/components/ui/CardFinancialSnapshot';
 import { Button } from '@/components';
 
 
+
 export const DashboardView = () => {
+
+
     // Datos de ejemplo para las tarjetas
     const resumenData = [
         { title: "Today's Tasks", value: 5 },

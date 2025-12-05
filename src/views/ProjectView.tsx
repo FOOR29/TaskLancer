@@ -1,6 +1,6 @@
-'use client'
 import { ProjectSidebar } from '@/components/features/ProjectSidebar'
 import { KanbanBoard } from '@/components/features/KanbanBoard'
+
 
 const ProjectView = () => {
     return (

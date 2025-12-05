@@ -5,11 +5,17 @@ import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerSchema, RegisterFormData } from "@/validations"
+import { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { registerAction } from "@/actions/auth-action"
 
 export const RegisterForm = () => {
     const t = useTranslations('form');
     const tAuth = useTranslations('auth');
     const tValidations = useTranslations('validations');
+    const [error, setError] = useState<string | undefined>(undefined);
+    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
     const {
         register,
@@ -21,16 +27,25 @@ export const RegisterForm = () => {
 
     const onSubmit = async (data: RegisterFormData) => {
         try {
-            console.log('Register data:', data);
-            // AQUI VA EL ENDPOINT
-            // Ejemplo: await fetch('/api/auth/register', { method: 'POST', body: JSON.stringify(data) })
+            setError(undefined); // Reset previous error
+            // Perform register action
+            startTransition(async () => {
+                const response = await registerAction(data)
+                console.log(response);
+                if (response.error) {
+                    setError(response.error)
+                } else {
+                    // Handle successful registration, e.g., redirect or update UI
+                    router.push('/dashboard'); // Redirect to dashboard after registration
+                }
+            });
         } catch (error) {
             console.error('Register error:', error);
         }
     };
 
     return (
-        <>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Input
                 id="name"
                 type="text"
@@ -63,9 +78,16 @@ export const RegisterForm = () => {
                 register={register('confirmPassword')}
                 error={errors.confirmPassword?.message ? tValidations(errors.confirmPassword.message as any) : undefined}
             />
-            <Button primary type="submit" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+
+            {error && (
+                <div className="p-3 text-sm text-red-500 bg-red-100 border border-red-200 rounded-md">
+                    {error}
+                </div>
+            )}
+
+            <Button primary type="submit" disabled={isSubmitting}>
                 {isSubmitting ? '...' : tAuth('register')}
             </Button>
-        </>
+        </form>
     )
 }

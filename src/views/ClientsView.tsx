@@ -6,7 +6,9 @@ import { ClientsGrid } from '@/components/features/ClientsGrid'
 import { NewClientModal, ClientFormData } from '@/components/features/NewClientModal'
 import { useClients } from '@/hooks'
 
+
 export const ClientsView = () => {
+
     const [userId, setUserId] = useState<string | null>(null)
     const { clients, fetchClients, createClient, updateClient, deleteClient } = useClients(userId)
     const [showNewClientModal, setShowNewClientModal] = useState(false)
