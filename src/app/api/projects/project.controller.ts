@@ -106,6 +106,34 @@ export async function handleUpdateProject(
         // Validate project ID
         const validatedId = projectIdSchema.parse({ id: params.id })
 
+        // Get userId from query params
+        const userId = request.nextUrl.searchParams.get('userId')
+        if (!userId) {
+            return NextResponse.json(
+                { error: 'userId is required' },
+                { status: 400 }
+            )
+        }
+
+        // Check if project exists and belongs to user
+        const existingProject = await prisma.project.findUnique({
+            where: { id: validatedId.id },
+        })
+
+        if (!existingProject) {
+            return NextResponse.json(
+                { error: 'Project not found' },
+                { status: 404 }
+            )
+        }
+
+        if (existingProject.userId !== userId) {
+            return NextResponse.json(
+                { error: 'Forbidden: You do not have permission to update this project' },
+                { status: 403 }
+            )
+        }
+
         const body = await request.json()
 
         // Validate request body
@@ -154,6 +182,34 @@ export async function handleDeleteProject(
     try {
         // Validate project ID
         const validatedId = projectIdSchema.parse({ id: params.id })
+
+        // Get userId from query params
+        const userId = request.nextUrl.searchParams.get('userId')
+        if (!userId) {
+            return NextResponse.json(
+                { error: 'userId is required' },
+                { status: 400 }
+            )
+        }
+
+        // Check if project exists and belongs to user
+        const existingProject = await prisma.project.findUnique({
+            where: { id: validatedId.id },
+        })
+
+        if (!existingProject) {
+            return NextResponse.json(
+                { error: 'Project not found' },
+                { status: 404 }
+            )
+        }
+
+        if (existingProject.userId !== userId) {
+            return NextResponse.json(
+                { error: 'Forbidden: You do not have permission to delete this project' },
+                { status: 403 }
+            )
+        }
 
         await prisma.project.delete({
             where: { id: validatedId.id },

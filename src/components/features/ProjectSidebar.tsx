@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import { useProjectStore } from '@/stores/projectStore'
 import { Button, SearchBar } from '@components'
 import { NewProjectModal, ProjectFormData } from './NewProjectModal'
@@ -17,31 +18,25 @@ export const ProjectSidebar = () => {
         updateProject,
         deleteProject,
         setUserId,
+        clearData,
         userId
     } = useProjectStore()
 
+    const { data: session } = useSession()
     const [searchQuery, setSearchQuery] = useState('')
     const [showNewProjectModal, setShowNewProjectModal] = useState(false)
     const [editingProject, setEditingProject] = useState<{ id: string; data: ProjectFormData } | null>(null)
 
-    // Initialize userId and fetch data
+    // Initialize userId from session and handle user changes
     useEffect(() => {
-        const initializeUser = async () => {
-            if (!userId) {
-                try {
-                    // Fetch the first user from the database for testing
-                    const response = await fetch('/api/users/first')
-                    if (response.ok) {
-                        const user = await response.json()
-                        setUserId(user.id)
-                    }
-                } catch (error) {
-                    console.error('Error fetching user:', error)
-                }
+        if (session?.user?.id) {
+            // If userId changed (different user logged in), clear old data and update userId
+            if (userId !== session.user.id) {
+                clearData() // Limpiar datos del usuario anterior
+                setUserId(session.user.id)
             }
         }
-        initializeUser()
-    }, [userId, setUserId])
+    }, [session, userId, setUserId, clearData])
 
     useEffect(() => {
         if (userId) {
