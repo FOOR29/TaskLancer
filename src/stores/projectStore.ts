@@ -115,7 +115,15 @@ export const useProjectStore = create<ProjectState>()(
 
                 set({ isLoading: true, error: null })
                 try {
-                    const updatedProject = await projectService.updateProject(projectId, userId, updates)
+                    // Filter out null values for quotation fields
+                    const cleanUpdates = {
+                        ...updates,
+                        hourlyRate: updates.hourlyRate === null ? undefined : updates.hourlyRate,
+                        estimatedHours: updates.estimatedHours === null ? undefined : updates.estimatedHours,
+                        totalPrice: updates.totalPrice === null ? undefined : updates.totalPrice
+                    } as any
+
+                    const updatedProject = await projectService.updateProject(projectId, userId, cleanUpdates)
                     set((state) => ({
                         projects: state.projects.map((p) =>
                             p.id === projectId ? updatedProject : p

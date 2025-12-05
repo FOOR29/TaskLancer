@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db as prisma } from '@/lib/db'
+import { Prisma } from '@prisma/client'
 import {
     createProjectSchema,
     updateProjectSchema,
@@ -139,6 +140,14 @@ export async function handleUpdateProject(
         // Validate request body
         const validatedData = updateProjectSchema.parse(body)
 
+        // Calculate totalPrice if hourlyRate or estimatedHours are provided
+        let totalPrice: Prisma.Decimal | null = existingProject.totalPrice
+        if (validatedData.hourlyRate !== undefined || validatedData.estimatedHours !== undefined) {
+            const rate = validatedData.hourlyRate ?? (existingProject.hourlyRate ? Number(existingProject.hourlyRate) : 0)
+            const hours = validatedData.estimatedHours ?? (existingProject.estimatedHours ? Number(existingProject.estimatedHours) : 0)
+            totalPrice = new Prisma.Decimal(rate * hours)
+        }
+
         const project = await prisma.project.update({
             where: { id: validatedId.id },
             data: {
@@ -148,9 +157,12 @@ export async function handleUpdateProject(
                 ...(validatedData.color && { color: validatedData.color }),
                 ...(validatedData.status && { status: validatedData.status }),
                 ...(validatedData.clientId !== undefined && { clientId: validatedData.clientId }),
+                ...(validatedData.hourlyRate !== undefined && { hourlyRate: validatedData.hourlyRate }),
+                ...(validatedData.estimatedHours !== undefined && { estimatedHours: validatedData.estimatedHours }),
+                ...(validatedData.priority && { priority: validatedData.priority }),
+                ...(totalPrice !== null && { totalPrice }),
             },
             include: {
-                tasks: true,
                 client: true,
             },
         })
