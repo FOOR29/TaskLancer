@@ -39,7 +39,7 @@ export const ProjectList = ({
     }
 
     return (
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto space-y-3 custom-scrollbar">
             {projects.map((project) => {
                 const progress = getProjectProgress(project.id)
                 const isSelected = selectedProjectId === project.id

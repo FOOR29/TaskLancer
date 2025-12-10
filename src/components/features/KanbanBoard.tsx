@@ -57,11 +57,11 @@ export const KanbanBoard = () => {
     // Empty state when no project is selected
     if (!selectedProjectId) {
         return (
-            <div className="flex-1 bg-(--bg-1) p-6 flex items-center justify-center">
-                <div className="text-center max-w-md">
-                    <div className="text-6xl mb-4">📋</div>
-                    <h2 className="text-2xl font-bold text-(--text-1) mb-2">Choose Your Project</h2>
-                    <p className="text-(--text-2)">
+            <div className="flex-1 bg-(--bg-1) p-6 max-md:p-4 max-sm:p-3 flex items-center justify-center">
+                <div className="text-center max-w-md px-4">
+                    <div className="text-6xl max-sm:text-4xl mb-4">📋</div>
+                    <h2 className="text-2xl max-sm:text-xl font-bold text-(--text-1) mb-2">Choose Your Project</h2>
+                    <p className="text-(--text-2) max-sm:text-sm">
                         Select a project from the sidebar to view and manage its tasks
                     </p>
                 </div>
@@ -72,36 +72,37 @@ export const KanbanBoard = () => {
     // Empty state when project has no tasks
     if (projectTasks.length === 0) {
         return (
-            <div className="flex-1 bg-(--bg-1) p-6">
+            <div className="flex-1 bg-(--bg-1) p-6 max-md:p-4 max-sm:p-3">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                        <h1 className="text-(--text-1) text-3xl font-semibold">Task Board</h1>
+                <div className="flex items-center justify-between mb-6 max-sm:mb-4">
+                    <div className="flex items-center gap-4 max-sm:gap-2 flex-1 min-w-0">
+                        <h1 className="text-(--text-1) text-3xl max-md:text-2xl max-sm:text-xl font-semibold truncate">Task Board</h1>
                         {selectedProject && (
-                            <span className="text-(--text-2) text-sm">
+                            <span className="text-(--text-2) text-sm max-sm:text-xs truncate max-sm:hidden">
                                 {selectedProject.icon} {selectedProject.name}
                             </span>
                         )}
                     </div>
                     <Button
-                        className="text-sm py-3 px-2 w-25! text-white"
+                        className="text-sm max-sm:text-xs py-3 max-sm:py-2 px-4 max-sm:px-3 text-white flex-shrink-0"
                         primary
                         onClick={() => setShowNewTaskModal(true)}
                         title="New Task"
                     >
-                        + New Task
+                        <span className="max-sm:hidden">+ New Task</span>
+                        <span className="sm:hidden">+</span>
                     </Button>
                 </div>
 
                 {/* Empty State */}
                 <div className="flex items-center justify-center h-[calc(100vh-200px)]">
-                    <div className="text-center max-w-md">
-                        <h2 className="text-2xl font-bold text-(--text-1) mb-2">No Tasks Yet</h2>
-                        <p className="text-(--text-2) mb-6">
+                    <div className="text-center max-w-md px-4">
+                        <h2 className="text-2xl max-sm:text-xl font-bold text-(--text-1) mb-2">No Tasks Yet</h2>
+                        <p className="text-(--text-2) max-sm:text-sm mb-6">
                             You don't have tasks yet, create your task to get started
                         </p>
                         <Button
-                            className="text-sm py-3 px-6 text-white"
+                            className="text-sm py-3 px-6 max-sm:px-4 text-white"
                             primary
                             onClick={() => setShowNewTaskModal(true)}
                         >
@@ -123,29 +124,30 @@ export const KanbanBoard = () => {
     }
 
     return (
-        <div className="flex-1 bg-(--bg-1) p-6">
+        <div className="flex-1 bg-(--bg-1) pt-6 px-6 max-md:pt-4 max-md:px-4 max-sm:pt-3 max-sm:px-3 overflow-hidden flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                    <h1 className="text-(--text-1) text-3xl font-semibold">Task Board</h1>
+            <div className="flex items-center justify-between mb-6 max-sm:mb-4 shrink-0">
+                <div className="flex items-center gap-4 max-sm:gap-2 flex-1 min-w-0">
+                    <h1 className="text-(--text-1) text-3xl max-md:text-2xl max-sm:text-xl font-semibold truncate">Task Board</h1>
                     {selectedProject && (
-                        <span className="text-(--text-2) text-sm">
+                        <span className="text-(--text-2) text-sm max-sm:text-xs truncate max-sm:hidden">
                             {selectedProject.icon} {selectedProject.name}
                         </span>
                     )}
                 </div>
                 <Button
-                    className="text-sm py-3 px-2 w-25! text-white"
+                    className="text-sm max-sm:text-xs py-3 max-sm:py-2 px-4 max-sm:px-3 text-white flex-shrink-0"
                     primary
                     onClick={() => setShowNewTaskModal(true)}
                     title="New Task"
                 >
-                    + New Task
+                    <span className="max-sm:hidden">+ New Task</span>
+                    <span className="sm:hidden">+</span>
                 </Button>
             </div>
 
             {/* Kanban Columns */}
-            <div className="flex gap-4 overflow-x-auto pb-4">
+            <div className="flex gap-4 max-sm:gap-3 overflow-x-auto flex-1 min-h-0 pb-0">
                 {columns.map((column) => (
                     <KanbanColumn
                         key={column.status}

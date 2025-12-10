@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react'
 import { Modal } from '@/components/ui/Modal'
 import { Button } from '@components'
 import { useClients } from '@/hooks'
+import { ProjectFormFields } from '@/components/form/ProjectFormFields'
+import { PROJECT_ICONS, PROJECT_COLORS } from '@/constants/project'
 
 interface NewProjectModalProps {
     isOpen: boolean
@@ -21,29 +23,6 @@ export interface ProjectFormData {
     status?: 'ACTIVE' | 'COMPLETED' | 'ON_HOLD' | 'CANCELLED'
     clientId?: string | null
 }
-
-const PROJECT_ICONS = [
-    { value: '📱', label: 'Desarrollo & Tecnología' },
-    { value: '🎨', label: 'Diseño & Creatividad' },
-    { value: '💻', label: 'Marketing Digital' },
-    { value: '✍️', label: 'Escritura & Traducción' },
-    { value: '🎬', label: 'Video & Audio' },
-    { value: '📊', label: 'Negocios & Finanzas' },
-    { value: '🛒', label: 'Ecommerce' },
-    { value: '🏗️', label: 'Ingeniería & Arquitectura' }
-];
-
-
-const PROJECT_COLORS = [
-    '#3B82F6', // Blue
-    '#8B5CF6', // Purple
-    '#10B981', // Green
-    '#F59E0B', // Orange
-    '#EF4444', // Red
-    '#EC4899', // Pink
-    '#14B8A6', // Teal
-    '#6366F1'  // Indigo
-]
 
 export const NewProjectModal = ({
     isOpen,
@@ -132,125 +111,14 @@ export const NewProjectModal = ({
             onClose={onClose}
             title={mode === 'create' ? 'New Project' : 'Edit Project'}
         >
-            <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Project Name */}
-                <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-(--text-1) mb-2">
-                        Project Name *
-                    </label>
-                    <input
-                        id="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => handleChange('name', e.target.value)}
-                        className={`w-full px-4 py-2.5 rounded-lg bg-(--bg-2) border ${errors.name ? 'border-red-500' : 'border-(--bg-2)'
-                            } text-(--text-1) focus:outline-none focus:ring-2 focus:ring-(--btn-1) transition-all`}
-                        placeholder="Enter project name"
-                    />
-                    {errors.name && (
-                        <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-                    )}
-                </div>
-
-                {/* Project Description */}
-                <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-(--text-1) mb-2">
-                        Description
-                    </label>
-                    <textarea
-                        id="description"
-                        value={formData.description}
-                        onChange={(e) => handleChange('description', e.target.value)}
-                        rows={3}
-                        className="w-full px-4 py-2.5 rounded-lg bg-(--bg-2) border border-(--bg-2) text-(--text-1) focus:outline-none focus:ring-2 focus:ring-(--btn-1) transition-all resize-none"
-                        placeholder="Enter project description"
-                    />
-                </div>
-
-                {/* Client Selection */}
-                <div>
-                    <label htmlFor="client" className="block text-sm font-medium text-(--text-1) mb-2">
-                        Client (Optional)
-                    </label>
-                    <select
-                        id="client"
-                        value={formData.clientId || ''}
-                        onChange={(e) => handleChange('clientId', e.target.value || null)}
-                        className="w-full px-4 py-2.5 rounded-lg bg-(--bg-2) border border-(--bg-2) text-(--text-1) focus:outline-none focus:ring-2 focus:ring-(--btn-1) transition-all"
-                    >
-                        <option value="">No client</option>
-                        {clients.map((client) => (
-                            <option key={client.id} value={client.id}>
-                                {client.name} {client.company ? `(${client.company})` : ''}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* Status Selection - Only in Edit Mode */}
-                {mode === 'edit' && (
-                    <div>
-                        <label htmlFor="status" className="block text-sm font-medium text-(--text-1) mb-2">
-                            Project Status
-                        </label>
-                        <select
-                            id="status"
-                            value={formData.status || 'ACTIVE'}
-                            onChange={(e) => handleChange('status', e.target.value as ProjectFormData['status'])}
-                            className="w-full px-4 py-2.5 rounded-lg bg-(--bg-2) border border-(--bg-2) text-(--text-1) focus:outline-none focus:ring-2 focus:ring-(--btn-1) transition-all"
-                        >
-                            <option value="ACTIVE">🟢 Active</option>
-                            <option value="COMPLETED">✅ Completed</option>
-                            <option value="ON_HOLD">⏸️ On Hold</option>
-                            <option value="CANCELLED">❌ Cancelled</option>
-                        </select>
-                    </div>
-                )}
-
-                {/* Icon Selection */}
-                <div>
-                    <label className="block text-sm font-medium text-(--text-1) mb-2">
-                        Project Icon
-                    </label>
-                    <div className="grid grid-cols-4 gap-3">
-                        {PROJECT_ICONS.map((icon) => (
-                            <button
-                                key={icon.value}
-                                type="button"
-                                onClick={() => handleChange('icon', icon.value)}
-                                className={`p-4 rounded-lg border-2 transition-all duration-200 ${formData.icon === icon.value
-                                    ? 'border-(--btn-1) bg-(--btn-1)/10'
-                                    : 'border-(--bg-2) hover:border-(--btn-1)/50'
-                                    }`}
-                            >
-                                <div className="text-3xl text-center">{icon.value}</div>
-                                <div className="text-xs text-(--text-2) text-center mt-1">{icon.label}</div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Color Selection */}
-                <div>
-                    <label className="block text-sm font-medium text-(--text-1) mb-2">
-                        Project Color
-                    </label>
-                    <div className="grid grid-cols-8 gap-2">
-                        {PROJECT_COLORS.map((color) => (
-                            <button
-                                key={color}
-                                type="button"
-                                onClick={() => handleChange('color', color)}
-                                className={`w-10 h-10 rounded-lg transition-all duration-200 ${formData.color === color
-                                    ? 'ring-2 ring-offset-2 ring-(--btn-1) scale-110'
-                                    : 'hover:scale-105'
-                                    }`}
-                                style={{ backgroundColor: color }}
-                                aria-label={`Select color ${color}`}
-                            />
-                        ))}
-                    </div>
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <ProjectFormFields
+                    formData={formData}
+                    errors={errors}
+                    clients={clients}
+                    mode={mode}
+                    onChange={handleChange}
+                />
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4">
