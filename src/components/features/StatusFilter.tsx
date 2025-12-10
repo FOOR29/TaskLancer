@@ -14,7 +14,7 @@ const STATUS_CONFIG = [
 
 export const StatusFilter = ({ setStatusFilter, statusFilter }: StatusFilterProps) => {
     return (
-        <div className="grid grid-cols-4 gap-6 mb-4">
+        <div className="grid grid-cols-4 gap-10 mb-4">
             {STATUS_CONFIG.map(({ key, icon: Icon, activeColor }) => {
                 const isActive = statusFilter === key
 
@@ -22,13 +22,13 @@ export const StatusFilter = ({ setStatusFilter, statusFilter }: StatusFilterProp
                     <button
                         key={key}
                         onClick={() => setStatusFilter(key)}
-                        className={`px-2 py-2 flex justify-center items-center rounded-md text-xs font-semibold transition-all duration-200
+                        className={`px-2 py-2 flex justify-center items-center rounded-md text-xs font-semibold transition-all duration-200 cursor-pointer
               ${isActive
                                 ? `${activeColor} text-white shadow-lg scale-105`
                                 : 'bg-(--bg-2) text-(--text-2) hover:bg-(--bg-2)/70 hover:scale-105'
                             }`}
                     >
-                        <Icon className="h-5 w-5"/>
+                        <Icon className="h-4 w-4"/>
                     </button>
                 )
             })}

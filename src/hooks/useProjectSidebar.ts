@@ -17,7 +17,8 @@ export const useProjectSidebar = () => {
         deleteProject,
         setUserId,
         clearData,
-        userId
+        userId,
+        reorderProjects
     } = useProjectStore()
 
     const { data: session } = useSession()
@@ -131,6 +132,11 @@ export const useProjectSidebar = () => {
         setDetailsProject(project)
     }, [setSelectedProject])
 
+    // Handle project reordering
+    const handleReorderProjects = useCallback((projectIds: string[]) => {
+        reorderProjects(projectIds)
+    }, [reorderProjects])
+
     return {
         // State
         filteredProjects,
@@ -156,6 +162,7 @@ export const useProjectSidebar = () => {
         handleUpdateProject,
         handleProjectSelect,
         handleOpenProjectModal,
-        openEditModal
+        openEditModal,
+        handleReorderProjects
     }
 }

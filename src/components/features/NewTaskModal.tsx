@@ -19,6 +19,7 @@ export interface TaskFormData {
     priority: 'LOW' | 'MEDIUM' | 'HIGH'
     dueDate: string
     projectId: string
+    status?: 'TODO' | 'IN_PROGRESS' | 'DONE'
 }
 
 const PRIORITY_OPTIONS = [
@@ -41,7 +42,8 @@ export const NewTaskModal = ({
         description: '',
         priority: 'MEDIUM',
         dueDate: '',
-        projectId: projectId || ''
+        projectId: projectId || '',
+        status: 'TODO'
     })
 
     const [errors, setErrors] = useState<{
@@ -62,7 +64,8 @@ export const NewTaskModal = ({
                 description: '',
                 priority: 'MEDIUM',
                 dueDate: '',
-                projectId: projectId || ''
+                projectId: projectId || '',
+                status: 'TODO'
             })
         }
         setErrors({})
@@ -189,6 +192,50 @@ export const NewTaskModal = ({
                         ))}
                     </div>
                 </div>
+
+                {/* Status Selection - Only in Edit Mode */}
+                {mode === 'edit' && (
+                    <div>
+                        <label className="block text-sm font-medium text-(--text-1) mb-2">
+                            Status
+                        </label>
+                        <div className="grid grid-cols-3 gap-3">
+                            <button
+                                type="button"
+                                onClick={() => handleChange('status', 'TODO')}
+                                className={`p-3 rounded-lg border-2 transition-all duration-200 ${
+                                    formData.status === 'TODO'
+                                        ? 'border-(--btn-1) bg-(--btn-1)/10'
+                                        : 'border-(--bg-2) hover:border-(--btn-1)/50'
+                                }`}
+                            >
+                                <div className="text-sm text-(--text-1) text-center font-medium">To-Do</div>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleChange('status', 'IN_PROGRESS')}
+                                className={`p-3 rounded-lg border-2 transition-all duration-200 ${
+                                    formData.status === 'IN_PROGRESS'
+                                        ? 'border-(--btn-1) bg-(--btn-1)/10'
+                                        : 'border-(--bg-2) hover:border-(--btn-1)/50'
+                                }`}
+                            >
+                                <div className="text-sm text-(--text-1) text-center font-medium">In Progress</div>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleChange('status', 'DONE')}
+                                className={`p-3 rounded-lg border-2 transition-all duration-200 ${
+                                    formData.status === 'DONE'
+                                        ? 'border-(--btn-1) bg-(--btn-1)/10'
+                                        : 'border-(--bg-2) hover:border-(--btn-1)/50'
+                                }`}
+                            >
+                                <div className="text-sm text-(--text-1) text-center font-medium">Done</div>
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 {/* Due Date */}
                 <div>

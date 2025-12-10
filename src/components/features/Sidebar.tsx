@@ -44,7 +44,7 @@ export const Sidebar = ({ isMobileOpen = false, onMobileClose }: SidebarProps) =
             {/* Sidebar */}
             <aside className={`
                 bg-(--bg-1) fixed top-0 left-0 z-50 h-screen flex flex-col py-6 border-r-2 border-(--bg-2)
-                w-60 max-md:w-4/10
+                w-60 max-md:w-5/10 max-sm:w-7/10
                 max-md:transition-transform max-md:duration-300
                 ${isMobileOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'}
                 px-4 max-md:px-2 

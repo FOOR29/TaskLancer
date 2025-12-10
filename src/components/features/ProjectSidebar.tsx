@@ -34,7 +34,8 @@ export const ProjectSidebar = () => {
         handleUpdateProject,
         handleProjectSelect,
         handleOpenProjectModal,
-        openEditModal
+        openEditModal,
+        handleReorderProjects
     } = useProjectSidebar()
 
     return (
@@ -90,6 +91,7 @@ export const ProjectSidebar = () => {
                     onProjectOpenModal={handleOpenProjectModal}
                     onProjectEdit={openEditModal}
                     onProjectDelete={handleDeleteProject}
+                    onReorder={handleReorderProjects}
                 />
 
                 {/* New Project Modal */}
