@@ -1,18 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '@/components';
-import { Bell, Search } from 'lucide-react';
 import { CardResumen } from '@/components/ui/CardResumen';
 import { CardUrgentTasks } from '@/components/ui/CardUrgentTasks';
 import { CardActiveProjects } from '@/components/ui/CardActiveProjects';
 import { CardFinancialSnapshot } from '@/components/ui/CardFinancialSnapshot';
 import { DashboardData } from '@/types/dashboard';
+import { useLocaleStore } from '@/stores/localeStore';
 
 export const DashboardView = () => {
     const [data, setData] = useState<DashboardData | null>(null);
     const [loading, setLoading] = useState(true);
     const [selectedClient, setSelectedClient] = useState<string | null>(null);
+    const { messages } = useLocaleStore();
+    const t = messages.dashboard;
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -51,10 +52,10 @@ export const DashboardView = () => {
     }
 
     const resumenData = [
-        { title: "Today's Tasks", value: data.summary.tasksDueToday },
-        { title: "Planned Hours", value: data.summary.plannedHours },
-        { title: "Active Projects", value: data.summary.activeProjects },
-        { title: "Total Clients", value: data.summary.totalClients },
+        { title: t.summary.tasksDueToday, value: data.summary.tasksDueToday },
+        { title: t.summary.plannedHours, value: data.summary.plannedHours },
+        { title: t.summary.activeProjects, value: data.summary.activeProjects },
+        { title: t.summary.totalClients, value: data.summary.totalClients },
     ];
 
 
@@ -65,8 +66,8 @@ export const DashboardView = () => {
 
                 <main className="flex-1 p-8 overflow-y-auto">
                     <div className="mb-8">
-                        <h1 className="text-3xl font-bold text-(--text-1)">Dashboard Overview</h1>
-                        <p className="text-(--text-2) mt-2 text-sm">Here's your command center for today</p>
+                        <h1 className="text-3xl font-bold text-(--text-1)">{t.title}</h1>
+                        <p className="text-(--text-2) mt-2 text-sm">{t.subtitle}</p>
                     </div>
 
                     {/* CONTENEDOR PRINCIPAL FLEX COLUMNA */}
@@ -90,7 +91,7 @@ export const DashboardView = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                                 </svg>
-                                All Clients
+                                {t.filter.allClients}
                             </button>
                             {data.clients?.map((client) => (
                                 <button
@@ -112,13 +113,13 @@ export const DashboardView = () => {
 
                             {/* Financial Snapshot - Flex 1 */}
                             <div className="lg:flex-1 flex flex-col">
-                                <CardFinancialSnapshot total={data.totalOutstanding} invoices={data.recentInvoices} />
+                                <CardFinancialSnapshot total={data.quotationsTotal || 0} quotations={data.quotations || []} />
                             </div>
                         </div>
 
                         {/* 3. FILA INFERIOR: Proyectos (Ancho completo) */}
                         <div className="w-full flex flex-col">
-                            <h4 className="text-lg font-semibold mb-4 text-(--text-1)">Active Projects</h4>
+                            <h4 className="text-lg font-semibold mb-4 text-(--text-1)">{t.activeProjects.title}</h4>
                             <CardActiveProjects projects={data.activeProjects} />
                         </div>
 

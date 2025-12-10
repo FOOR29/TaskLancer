@@ -232,6 +232,35 @@ export async function GET(request: Request) {
             };
         });
 
+        // 5. Quotations (Projects with totalPrice > 0)
+        const quotations = await db.project.findMany({
+            where: {
+                userId,
+                totalPrice: { gt: 0 },
+                ...(clientId ? { clientId } : {}),
+            },
+            orderBy: {
+                updatedAt: 'desc',
+            },
+            include: {
+                client: {
+                    select: { name: true },
+                },
+            },
+        });
+
+        const quotationsTotal = quotations.reduce((sum, project) => {
+            return sum + (Number(project.totalPrice) || 0);
+        }, 0);
+
+        const formattedQuotations = quotations.map(q => ({
+            id: q.id,
+            name: q.name,
+            clientName: q.client?.name || 'No Client',
+            totalPrice: Number(q.totalPrice),
+            status: q.status,
+        }));
+
         return NextResponse.json({
             summary: {
                 tasksDueToday,
@@ -244,6 +273,8 @@ export async function GET(request: Request) {
             activeProjects: formattedProjects,
             totalOutstanding,
             clients,
+            quotations: formattedQuotations,
+            quotationsTotal,
         });
 
     } catch (error) {

@@ -30,4 +30,12 @@ export interface DashboardData {
         id: string;
         name: string;
     }[];
+    quotations: {
+        id: string;
+        name: string;
+        clientName: string;
+        totalPrice: number;
+        status: string;
+    }[];
+    quotationsTotal: number;
 }
