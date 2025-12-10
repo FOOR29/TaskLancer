@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from '@/components'
+import { useTranslations } from 'next-intl'
 
 interface EditProfileModalProps {
     isOpen: boolean
@@ -25,6 +26,7 @@ export const EditProfileModal = ({
     initialData,
     section
 }: EditProfileModalProps) => {
+    const t = useTranslations('profile')
     const [formData, setFormData] = useState<ProfileFormData>(initialData || {})
     const [loading, setLoading] = useState(false)
 
@@ -52,13 +54,13 @@ export const EditProfileModal = ({
     const getTitle = () => {
         switch (section) {
             case 'personal':
-                return 'Edit Personal Info'
+                return t('sections.personal')
             case 'location':
-                return 'Edit Location'
+                return t('sections.location')
             case 'bio':
-                return 'Edit Bio'
+                return t('sections.bio')
             default:
-                return 'Edit Profile'
+                return t('sections.personal')
         }
     }
 
@@ -91,26 +93,26 @@ export const EditProfileModal = ({
                         <>
                             <div>
                                 <label className="block text-(--text-2) text-sm font-medium mb-2">
-                                    Full Name
+                                    {t('fullName')}
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.name || ''}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     className="w-full px-4 py-3 bg-(--bg-3) border border-(--border-1) rounded-xl text-(--text-1) placeholder:text-(--text-2) focus:outline-none focus:ring-2 focus:ring-(--btn-1)"
-                                    placeholder="Your full name"
+                                    placeholder={t('placeholders.name')}
                                 />
                             </div>
                             <div>
                                 <label className="block text-(--text-2) text-sm font-medium mb-2">
-                                    Phone
+                                    {t('phone')}
                                 </label>
                                 <input
                                     type="tel"
                                     value={formData.phone || ''}
                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                     className="w-full px-4 py-3 bg-(--bg-3) border border-(--border-1) rounded-xl text-(--text-1) placeholder:text-(--text-2) focus:outline-none focus:ring-2 focus:ring-(--btn-1)"
-                                    placeholder="(123) 456-7890"
+                                    placeholder={t('placeholders.phone')}
                                 />
                             </div>
                         </>
@@ -119,14 +121,14 @@ export const EditProfileModal = ({
                     {section === 'location' && (
                         <div>
                             <label className="block text-(--text-2) text-sm font-medium mb-2">
-                                Location
+                                {t('location')}
                             </label>
                             <input
                                 type="text"
                                 value={formData.location || ''}
                                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                                 className="w-full px-4 py-3 bg-(--bg-3) border border-(--border-1) rounded-xl text-(--text-1) placeholder:text-(--text-2) focus:outline-none focus:ring-2 focus:ring-(--btn-1)"
-                                placeholder="City, Country"
+                                placeholder={t('placeholders.location')}
                             />
                         </div>
                     )}
@@ -134,14 +136,14 @@ export const EditProfileModal = ({
                     {section === 'bio' && (
                         <div>
                             <label className="block text-(--text-2) text-sm font-medium mb-2">
-                                Bio
+                                {t('bio')}
                             </label>
                             <textarea
                                 value={formData.bio || ''}
                                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                                 rows={6}
                                 className="w-full px-4 py-3 bg-(--bg-3) border border-(--border-1) rounded-xl text-(--text-1) placeholder:text-(--text-2) focus:outline-none focus:ring-2 focus:ring-(--btn-1) resize-none"
-                                placeholder="Tell us about yourself..."
+                                placeholder={t('bioPlaceholder')}
                             />
                         </div>
                     )}
@@ -153,7 +155,7 @@ export const EditProfileModal = ({
                             onClick={onClose}
                             className="flex-1 px-4 py-3 bg-(--bg-3) text-(--text-1) rounded-xl font-medium hover:bg-(--border-1) transition-colors"
                         >
-                            Cancel
+                            {t('cancel')}
                         </button>
                         <Button
                             type="submit"
@@ -161,7 +163,7 @@ export const EditProfileModal = ({
                             className="flex-1 py-3"
                             disabled={loading}
                         >
-                            {loading ? 'Saving...' : 'Save changes'}
+                            {loading ? t('saving') : t('save')}
                         </Button>
                     </div>
                 </form>

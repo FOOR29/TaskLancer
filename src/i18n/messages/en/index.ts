@@ -7,6 +7,7 @@ import sidebar from './components/sidebar.json';
 import navbar from './components/navbar.json';
 import validations from './validations.json';
 import hero from './pages/hero.json';
+import profile from './pages/profile.json';
 
 export default {
     common,
@@ -18,4 +19,5 @@ export default {
     navbar,
     validations,
     hero,
+    profile,
 };
