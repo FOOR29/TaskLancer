@@ -18,6 +18,7 @@ export interface ProjectFormData {
     description: string
     icon: string
     color: string
+    status?: 'ACTIVE' | 'COMPLETED' | 'ON_HOLD' | 'CANCELLED'
     clientId?: string | null
 }
 
@@ -60,6 +61,7 @@ export const NewProjectModal = ({
         description: '',
         icon: PROJECT_ICONS[0].value,
         color: PROJECT_COLORS[0],
+        status: 'ACTIVE',
         clientId: null
     })
 
@@ -89,6 +91,7 @@ export const NewProjectModal = ({
                 description: '',
                 icon: PROJECT_ICONS[0].value,
                 color: PROJECT_COLORS[0],
+                status: 'ACTIVE',
                 clientId: null
             })
         }
@@ -115,7 +118,7 @@ export const NewProjectModal = ({
         }
     }
 
-    const handleChange = (field: keyof ProjectFormData, value: string | null) => {
+    const handleChange = (field: keyof ProjectFormData, value: string | null | undefined) => {
         setFormData(prev => ({ ...prev, [field]: value }))
         // Clear error for this field
         if (errors[field]) {
@@ -183,6 +186,26 @@ export const NewProjectModal = ({
                         ))}
                     </select>
                 </div>
+
+                {/* Status Selection - Only in Edit Mode */}
+                {mode === 'edit' && (
+                    <div>
+                        <label htmlFor="status" className="block text-sm font-medium text-(--text-1) mb-2">
+                            Project Status
+                        </label>
+                        <select
+                            id="status"
+                            value={formData.status || 'ACTIVE'}
+                            onChange={(e) => handleChange('status', e.target.value as ProjectFormData['status'])}
+                            className="w-full px-4 py-2.5 rounded-lg bg-(--bg-2) border border-(--bg-2) text-(--text-1) focus:outline-none focus:ring-2 focus:ring-(--btn-1) transition-all"
+                        >
+                            <option value="ACTIVE">🟢 Active</option>
+                            <option value="COMPLETED">✅ Completed</option>
+                            <option value="ON_HOLD">⏸️ On Hold</option>
+                            <option value="CANCELLED">❌ Cancelled</option>
+                        </select>
+                    </div>
+                )}
 
                 {/* Icon Selection */}
                 <div>

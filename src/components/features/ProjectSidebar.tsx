@@ -5,6 +5,7 @@ import { ProjectDetailsModal } from './ProjectDetailsModal'
 import { ProjectSidebarHeader } from './ProjectSidebarHeader'
 import { ProjectList } from './ProjectList'
 import { useProjectSidebar } from '@/hooks/useProjectSidebar'
+import { StatusFilter } from './StatusFilter'
 
 export const ProjectSidebar = () => {
     const {
@@ -12,10 +13,12 @@ export const ProjectSidebar = () => {
         selectedProjectId,
         tasks,
         searchQuery,
+        statusFilter,
         showNewProjectModal,
         editingProject,
         detailsProject,
         setSearchQuery,
+        setStatusFilter,
         setShowNewProjectModal,
         setEditingProject,
         setDetailsProject,
@@ -35,10 +38,13 @@ export const ProjectSidebar = () => {
 
             {/* Search Bar */}
             <SearchBar
-                className="mt-2 mb-6 bg-white dark:bg-[#232F48]"
+                className="mt-2 mb-4 bg-white dark:bg-[#232F48]"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
             />
+
+            {/* Status Filter */}
+            <StatusFilter setStatusFilter={setStatusFilter} statusFilter={statusFilter} />
 
             {/* Projects List */}
             <ProjectList
