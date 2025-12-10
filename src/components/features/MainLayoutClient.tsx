@@ -10,7 +10,7 @@ export const MainLayoutClient = ({ children }: MainLayoutClientProps) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     return (
-        <div className="min-h-screen">
+        <div className="h-screen overflow-hidden flex flex-col">
             {/* SIDEBAR */}
             <Sidebar
                 isMobileOpen={isSidebarOpen}
@@ -18,9 +18,11 @@ export const MainLayoutClient = ({ children }: MainLayoutClientProps) => {
             />
 
             {/* CONTENIDO */}
-            <main className="ml-60 max-md:ml-0">
+            <main className="ml-60 max-md:ml-0 flex-1 flex flex-col overflow-hidden">
                 <HeaderSearch onMenuClick={() => setIsSidebarOpen(true)} />
-                {children}
+                <div className="flex-1 overflow-hidden">
+                    {children}
+                </div>
             </main>
         </div>
     )

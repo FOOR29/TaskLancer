@@ -4,7 +4,7 @@ import { KanbanBoard } from '@/components/features/KanbanBoard'
 
 const ProjectView = () => {
     return (
-        <div className="flex h-[calc(100vh-95px)] overflow-hidden">
+        <div className="flex h-full overflow-hidden">
             <ProjectSidebar />
             <KanbanBoard />
         </div>

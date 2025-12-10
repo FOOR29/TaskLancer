@@ -58,7 +58,7 @@ export const ProjectSidebar = () => {
 
             {/* Sidebar */}
             <div className={`
-                w-80 max-md:w-6/10 max-sm:w-8/10 flex flex-col bg-(--bg-2) py-7 px-4 border-r border-(--bg-2)
+                w-80 max-md:w-6/10 max-sm:w-8/10 h-full flex flex-col bg-(--bg-2) py-7 px-4 border-r border-(--bg-2) overflow-hidden
                 max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:h-screen max-lg:z-50
                 max-lg:transition-transform max-lg:duration-300
                 ${isMobileOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'}
