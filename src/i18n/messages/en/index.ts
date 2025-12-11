@@ -8,6 +8,7 @@ import navbar from './components/navbar.json';
 import validations from './validations.json';
 import hero from './pages/hero.json';
 import profile from './pages/profile.json';
+import clients from './pages/clients.json';
 
 export default {
     common,
@@ -20,4 +21,5 @@ export default {
     validations,
     hero,
     profile,
+    clients,
 };

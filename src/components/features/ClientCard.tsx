@@ -2,6 +2,7 @@
 
 import { Button } from '@/components'
 import { DropdownMenu } from '@/components/ui/DropdownMenu'
+import { useTranslations } from 'next-intl'
 
 interface ClientCardProps {
     name: string
@@ -30,6 +31,8 @@ export const ClientCard = ({
     onEdit,
     onDelete
 }: ClientCardProps) => {
+    const t = useTranslations('clients.card')
+    
     return (
         <div className="bg-(--bg-2) border border-(--border-1) rounded-2xl overflow-hidden flex flex-col sm:flex-row hover:shadow-2xl transition-all duration-300 group">
             {/* Left: Avatar/Image Section */}
@@ -60,7 +63,7 @@ export const ClientCard = ({
                                 <span className="text-(--bg-1) text-xs font-bold transform -rotate-12">T</span>
                             </div>
                             <h3 className="text-(--text-1) font-bold uppercase tracking-tight text-lg leading-none">
-                                {company || 'Independent Client'}
+                                {company || t('independentClient')}
                             </h3>
                         </div>
                         <p className="text-(--text-2) text-[10px] uppercase tracking-widest font-mono">
@@ -82,21 +85,21 @@ export const ClientCard = ({
                 <div className="space-y-4 mb-6">
                     <div className="border-b border-(--text-2)/20 pb-1">
                         <div className="flex items-baseline">
-                            <span className="text-(--text-1) text-xs uppercase font-bold w-16 shrink-0">NAME:</span>
+                            <span className="text-(--text-1) text-xs uppercase font-bold w-16 shrink-0">{t('name')}</span>
                             <span className="text-(--text-1) font-mono text-sm truncate">{name}</span>
                         </div>
                     </div>
                     
                     <div className="border-b border-(--text-2)/20 pb-1">
                         <div className="flex items-baseline">
-                            <span className="text-(--text-1) text-xs uppercase font-bold w-16 shrink-0">ROLE:</span>
+                            <span className="text-(--text-1) text-xs uppercase font-bold w-16 shrink-0">{t('role')}</span>
                             <span className="text-(--text-1) font-mono text-sm truncate uppercase">{role}</span>
                         </div>
                     </div>
 
                     <div className="border-b border-(--text-2)/20 pb-1">
                         <div className="flex items-baseline">
-                            <span className="text-(--text-1) text-xs uppercase font-bold w-16 shrink-0">EMAIL:</span>
+                            <span className="text-(--text-1) text-xs uppercase font-bold w-16 shrink-0">{t('email')}</span>
                             <span className="text-(--text-1) font-mono text-sm truncate lowercase">{email}</span>
                         </div>
                     </div>
@@ -106,10 +109,10 @@ export const ClientCard = ({
                 <div className="mt-auto flex flex-col gap-4">
                     <div className="bg-(--bg-3)/50 rounded p-3 relative group/review">
                         <span className="text-[10px] uppercase font-bold text-(--text-2) absolute -top-2 left-2 bg-(--bg-2) px-1">
-                            ABOUT / NOTES
+                            {t('aboutNotes')}
                         </span>
                         <p className="text-(--text-2) text-xs font-mono leading-relaxed line-clamp-2 sm:line-clamp-3">
-                            {notes || 'No additional notes provided for this client.'}
+                            {notes || t('noNotes')}
                         </p>
                     </div>
 
@@ -118,7 +121,7 @@ export const ClientCard = ({
                         onClick={onViewProjects}
                         className="w-full text-xs py-2 uppercase tracking-wide font-bold"
                     >
-                    Projects ({projectsCount})
+                        {t('projects')} ({projectsCount})
                     </Button>
                 </div>
             </div>
