@@ -13,6 +13,7 @@ import projects from './components/projects.json';
 import taskboard from './components/taskboard.json';
 import projectModal from './components/projectModal.json';
 import taskModal from './components/taskModal.json';
+import services from './pages/services.json';
 
 export default {
     common,
@@ -29,5 +30,7 @@ export default {
     projects,
     taskboard,
     projectModal,
+    taskModal,
+    services,
     taskModal
 };
