@@ -1,13 +1,26 @@
 import { DashboardData } from '@/types/dashboard';
+import { useLocaleStore } from '@/stores/localeStore';
 
 interface CardUrgentTasksProps {
   tasks: DashboardData['urgentTasks'];
 }
 
 export function CardUrgentTasks({ tasks }: CardUrgentTasksProps) {
+  const { messages } = useLocaleStore();
+  const t = messages.dashboard.urgentTasks;
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'overdue': return t.overdue;
+      case 'due-today': return t.dueToday;
+      case 'due-tomorrow': return t.dueTomorrow;
+      default: return t.dueLater;
+    }
+  };
+
   return (
     <div className="bg-(--bg-2) rounded-xl shadow-lg p-6 text-(--text-1) h-full border border-(--border-1)">
-      <h4 className="text-lg font-semibold mb-6">Urgent Tasks</h4>
+      <h4 className="text-lg font-semibold mb-6">{t.title}</h4>
       <div className="space-y-4">
         {tasks.map((task, i) => (
           <div
@@ -30,7 +43,7 @@ export function CardUrgentTasks({ tasks }: CardUrgentTasksProps) {
                 task.status === 'due-today' ? 'text-(--priority-medium-1)' :
                   'text-(--priority-low-1)'
                 }`}>
-                {task.statusText}
+                {getStatusText(task.status)}
               </div>
               <div className="text-xs text-(--text-2) mt-1">{task.dueDate}</div>
             </div>
