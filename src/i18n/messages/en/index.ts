@@ -9,6 +9,10 @@ import validations from './validations.json';
 import hero from './pages/hero.json';
 import profile from './pages/profile.json';
 import clients from './pages/clients.json';
+import projects from './components/projects.json';
+import taskboard from './components/taskboard.json';
+import projectModal from './components/projectModal.json';
+import taskModal from './components/taskModal.json';
 
 export default {
     common,
@@ -22,4 +26,8 @@ export default {
     hero,
     profile,
     clients,
+    projects,
+    taskboard,
+    projectModal,
+    taskModal
 };
