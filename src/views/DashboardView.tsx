@@ -12,6 +12,7 @@ export const DashboardView = () => {
     const [data, setData] = useState<DashboardData | null>(null);
     const [loading, setLoading] = useState(true);
     const [selectedClient, setSelectedClient] = useState<string | null>(null);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const { messages } = useLocaleStore();
     const t = messages.dashboard;
 
@@ -82,26 +83,59 @@ export const DashboardView = () => {
                             ))}
                         </div>
 
-                        {/* Filter Section */}
-                        <div className="flex items-center gap-4 overflow-x-auto pb-2">
+                        {/* Filter Section - Dropdown */}
+                        <div className="relative w-64 z-20">
                             <button
-                                onClick={() => setSelectedClient(null)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${!selectedClient ? 'bg-[#135BEC] text-white shadow-lg shadow-blue-500/30' : 'bg-[#1A2336] text-(--text-2) hover:bg-gray-700'}`}
+                                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                                className="w-full flex items-center justify-between px-4 py-2 bg-(--bg-2) border border-(--border-1) rounded-lg text-sm text-(--text-1) hover:bg-(--bg-3) transition-colors"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                                </svg>
-                                {t.filter.allClients}
-                            </button>
-                            {data.clients?.map((client) => (
-                                <button
-                                    key={client.id}
-                                    onClick={() => setSelectedClient(client.id)}
-                                    className={`px-4 py-2 rounded-lg text-xs font-medium transition duration-300 ease-in-out ${selectedClient === client.id ? 'bg-[#135BEC] text-white shadow-lg shadow-blue-500/30' : 'bg-[#1A2336] text-(--text-2) hover:bg-gray-700'}`}
+                                <span className="truncate">
+                                    {selectedClient
+                                        ? data.clients?.find(c => c.id === selectedClient)?.name
+                                        : t.filter.allClients}
+                                </span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className={`h-4 w-4 transition-transform duration-200 ${isFilterOpen ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
                                 >
-                                    {client.name}
-                                </button>
-                            ))}
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            {isFilterOpen && (
+                                <>
+                                    <div
+                                        className="fixed inset-0 z-10"
+                                        onClick={() => setIsFilterOpen(false)}
+                                    />
+                                    <div className="absolute top-full left-0 right-0 mt-2 bg-(--bg-2) border border-(--border-1) rounded-lg shadow-xl z-20 max-h-60 overflow-y-auto custom-scrollbar">
+                                        <button
+                                            onClick={() => {
+                                                setSelectedClient(null);
+                                                setIsFilterOpen(false);
+                                            }}
+                                            className={`w-full text-left px-4 py-2 text-sm hover:bg-(--bg-3) transition-colors ${!selectedClient ? 'text-(--btn-1) font-medium' : 'text-(--text-2)'}`}
+                                        >
+                                            {t.filter.allClients}
+                                        </button>
+                                        {data.clients?.map((client) => (
+                                            <button
+                                                key={client.id}
+                                                onClick={() => {
+                                                    setSelectedClient(client.id);
+                                                    setIsFilterOpen(false);
+                                                }}
+                                                className={`w-full text-left px-4 py-2 text-sm hover:bg-(--bg-3) transition-colors ${selectedClient === client.id ? 'text-(--btn-1) font-medium' : 'text-(--text-2)'}`}
+                                            >
+                                                {client.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         {/* 2. FILA MEDIA: Urgent Tasks (66%) + Financial (33%) */}
