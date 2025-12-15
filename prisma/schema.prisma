@@ -11,7 +11,7 @@ model User {
   id            String      @id @default(cuid())
   name          String?
   email         String      @unique
-  emailVerified DateTime? // <- se marca cuando el usuario verifica el email
+  emailVerified DateTime?
   image         String?
   password      String?
   role          UserRole    @default(FREELANCER)
@@ -60,10 +60,10 @@ model Session {
   @@map("sessions")
 }
 
-// Modelo de tokens de verificación para emails / magic links
 model VerificationToken {
+  id         Int      @id @default(autoincrement())
   identifier String
-  token      String
+  token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
@@ -99,13 +99,13 @@ model Project {
   status         ProjectStatus        @default(ACTIVE)
   userId         String
   clientId       String?
-  order          Int                  @default(0)
   createdAt      DateTime             @default(now())
   updatedAt      DateTime             @updatedAt
   estimatedHours Decimal?             @db.Decimal(10, 2)
   hourlyRate     Decimal?             @db.Decimal(10, 2)
   priority       ProjectPriority      @default(MEDIUM)
   totalPrice     Decimal?             @db.Decimal(10, 2)
+  order          Int                  @default(0)
   invoices       Invoice[]
   requirements   ProjectRequirement[]
   client         Client?              @relation(fields: [clientId], references: [id])

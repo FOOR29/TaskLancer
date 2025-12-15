@@ -116,8 +116,10 @@ const Navbar = () => {
                     </div>
 
                     {/* Navegación */}
-                    <div className="flex items-center gap-6">
-                        <MenuOption className="md:hidden" />
+                    <div className="flex items-center gap-6 max-md:gap-0">
+                        <div className="md:hidden">
+                        <MenuOption />
+                        </div>
                         <div className="flex gap-6 max-lg:gap-4 items-center">
                             <div className="max-md:hidden flex gap-4 items-center text-(--text-2)">
                                 <LanguageSwitcher />
