@@ -85,7 +85,7 @@ export const AuthView = ({ isVerified }: AuthViewProps) => {
             </button>
           </div>
         </div>
-        <MenuOption className="absolute top-4 left-4"/>
+        <MenuOption className="absolute top-4 right-4"/>
       </div>
 
       {/* IMAGE SECTION */}
